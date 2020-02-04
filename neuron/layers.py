@@ -358,7 +358,7 @@ class VecInt(Layer):
 
         # necessary for multi_gpu models...
         loc_shift = K.reshape(loc_shift, [-1, *self.inshape[1:]])
-        loc_shift._keras_shape = inputs[0]._keras_shape
+        loc_shift._keras_shape = inputs[0].shape
         
         # prepare location shift
         if self.indexing == 'xy':  # shift the first two dimensions
@@ -371,7 +371,7 @@ class VecInt(Layer):
 
         # map transform across batch
         out = tf.map_fn(self._single_int, [loc_shift] + inputs[1:], dtype=tf.float32)
-        out._keras_shape = inputs[0]._keras_shape
+        out._keras_shape = inputs[0].shape
         return out
 
     def _single_int(self, inputs):
